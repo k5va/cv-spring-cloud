@@ -19,6 +19,8 @@
         <module>service-registry</module>
         <module>employee-service</module>
         <module>cv-service</module>
+        <module>gateway</module>
+        <module>identity-service</module>
     </modules>
 
     <properties>
@@ -27,6 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.24</lombok.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <jsonwebtoken.version>0.12.5</jsonwebtoken.version>
     </properties>
 
      <dependencyManagement>
@@ -43,6 +46,21 @@
                  <version>${spring-cloud.version}</version>
                  <type>pom</type>
                  <scope>import</scope>
+             </dependency>
+             <dependency>
+                 <groupId>io.jsonwebtoken</groupId>
+                 <artifactId>jjwt-api</artifactId>
+                 <version>${jsonwebtoken.version}</version>
+             </dependency>
+             <dependency>
+                 <groupId>io.jsonwebtoken</groupId>
+                 <artifactId>jjwt-impl</artifactId>
+                 <version>${jsonwebtoken.version}</version>
+             </dependency>
+             <dependency>
+                 <groupId>io.jsonwebtoken</groupId>
+                 <artifactId>jjwt-jackson</artifactId>
+                 <version>${jsonwebtoken.version}</version>
              </dependency>
         </dependencies>
     </dependencyManagement>

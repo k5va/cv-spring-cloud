@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/cv-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/employee-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/employee-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/identity-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-registry/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-registry/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />

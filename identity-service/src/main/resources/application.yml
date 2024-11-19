@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: IDENTITY-SERVICE
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/identity}
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:1234}
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+jwt:
+  secret: 984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf
+  lifetime: 100m

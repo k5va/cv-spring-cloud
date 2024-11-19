@@ -1,0 +1,15 @@
+meta {
+  name: Get employee
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/employee/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwic3ViIjoiSm9obiBEb2UiLCJpYXQiOjE3MzIwMTcxOTEsImV4cCI6MTczMjAyMzE5MX0.0mRf3eRRaW7-a98BD4XtHmQ3bC0j82FQ-fGvHLH9UpmT9NhSjFLS2tzRCoM3LpGi
+}
