@@ -17,17 +17,17 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="bbca4809-90bb-43a4-96e4-1a438f2369ba">
-      <console name="Identity" type="STANDARD" schema="public" session="Main"><![CDATA[create table users (
+      <console name="Identity" type="STANDARD" schema="public" session="Main">create table users (
     id bigserial primary key,
     name varchar(255),
     password varchar(255)
 );
 
-insert into users(id, "name", "password") values 
+insert into users(id, &quot;name&quot;, &quot;password&quot;) values 
 (1, 'john', '1234');
 
-insert into users("name", "password") values 
-('bill', '1234');]]></console>
+insert into users(&quot;name&quot;, &quot;password&quot;) values 
+('bill', '1234');</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -41,11 +41,16 @@ insert into users("name", "password") values
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.users" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.user_roles" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.databasechangelog" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.roles" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/identity-service/src/main/resources/db/migrations/2024_11_19_1_create_roles_table.sql" connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" session-id="MAIN" current-schema="identity" />
+    <mapping file-url="file://$PROJECT_DIR$/identity-service/src/main/resources/db/migrations/2024_11_18_1_create_users_table.sql" connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" session-id="MAIN" current-schema="identity" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

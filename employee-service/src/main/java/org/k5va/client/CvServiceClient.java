@@ -1,21 +1,13 @@
 package org.k5va.client;
 
-import lombok.RequiredArgsConstructor;
 import org.k5va.dto.CvDto;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-/**
- * @author Alexey Kulikov
- */
-@Component
-@RequiredArgsConstructor
-public class CvServiceClient {
-    private static final String CV_BY_ID_URL = "http://CV-SERVICE/cv/{id}";
+@FeignClient(name = "CV-SERVICE")
+public interface CvServiceClient {
 
-    private final RestTemplate restTemplate;
-
-    public CvDto getCvById(Long id) {
-        return restTemplate.getForObject(CV_BY_ID_URL, CvDto.class, id);
-    }
+    @GetMapping("/cv/{id}")
+    CvDto getCvById(@PathVariable Long id);
 }
