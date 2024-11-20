@@ -1,7 +1,12 @@
 spring:
   application:
     name: EMPLOYEE-SERVICE
-
+  datasource:
+    url: jdbc:postgresql://localhost:5434/employees
+    username: admin
+    password: 1234
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
 server:
   port: 0
 
