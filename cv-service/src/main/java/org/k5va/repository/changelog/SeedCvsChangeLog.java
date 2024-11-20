@@ -7,31 +7,31 @@ import lombok.extern.slf4j.Slf4j;
 import org.k5va.model.CvDocument;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @ChangeUnit(id = "seed-cvs", order = "001", author = "k5va")
 @Slf4j
 public class SeedCvsChangeLog {
+    private static final int CVS_COUNT = 100;
 
     @Execution
     public void seedTweets(MongoTemplate mongoTemplate) {
         log.info("Seeding cvs...");
 
-        var cvs = new ArrayList<CvDocument>();
-        for (int i = 0; i < 100; i++) {
-            cvs.add(CvDocument.builder()
-                    .id((long) i)
-                    .education("MIT")
-                    .description("i am top programmer")
-                    .workExperience("I have been working for 5 years")
-                    .skills(List.of("Java", "Python"))
-                    .languages(List.of("Russian", "English"))
-                    .certificates(List.of("Certificate 1", "Certificate 2"))
-                    .linkedId("linkedId")
-                    .isOpenToWork(true)
-                    .build());
-        }
+        List<CvDocument> cvs = IntStream.range(0, CVS_COUNT)
+                .mapToObj(i -> CvDocument.builder()
+                        .id((long) i)
+                        .education("MIT")
+                        .description("i am top programmer")
+                        .workExperience("I have been working for 5 years")
+                        .skills(List.of("Java", "Python"))
+                        .languages(List.of("Russian", "English"))
+                        .certificates(List.of("Certificate 1", "Certificate 2"))
+                        .linkedId("linkedId")
+                        .isOpenToWork(true)
+                        .build())
+                .toList();
 
         mongoTemplate.insertAll(cvs);
     }
