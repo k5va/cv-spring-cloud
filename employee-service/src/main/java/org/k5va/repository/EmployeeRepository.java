@@ -10,7 +10,6 @@ import java.util.Optional;
 
 import static org.k5va.generated.tables.Employees.EMPLOYEES;
 
-
 @Repository
 @RequiredArgsConstructor
 public class EmployeeRepository {
