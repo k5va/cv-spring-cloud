@@ -17,17 +17,20 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="bbca4809-90bb-43a4-96e4-1a438f2369ba">
-      <console name="Identity" type="STANDARD" schema="public" session="Main">create table users (
+      <console name="Identity" type="STANDARD" schema="public" session="Main"><![CDATA[create table users (
     id bigserial primary key,
     name varchar(255),
     password varchar(255)
 );
 
-insert into users(id, &quot;name&quot;, &quot;password&quot;) values 
+insert into users(id, "name", "password") values 
 (1, 'john', '1234');
 
-insert into users(&quot;name&quot;, &quot;password&quot;) values 
-('bill', '1234');</console>
+insert into users("name", "password") values 
+('bill', '1234');]]></console>
+    </connection>
+    <connection id="b38984aa-3e13-4b4b-b555-92c93af4d1c5">
+      <console name="Employees" type="STANDARD" schema="public" session="Main"><![CDATA[select employees.ID from EMPLOYEES where employees.ID = 1]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -38,8 +41,10 @@ insert into users(&quot;name&quot;, &quot;password&quot;) values
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="bbca4809-90bb-43a4-96e4-1a438f2369ba" />
+    <connection id="b38984aa-3e13-4b4b-b555-92c93af4d1c5" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="b38984aa-3e13-4b4b-b555-92c93af4d1c5" dataset="public.employees" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.users" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.user_roles" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" dataset="public.databasechangelog" active-filter-id="EMPTY_FILTER" />
@@ -51,6 +56,7 @@ insert into users(&quot;name&quot;, &quot;password&quot;) values
   <component name="DBNavigator.Project.FileConnectionMappingManager">
     <mapping file-url="file://$PROJECT_DIR$/identity-service/src/main/resources/db/migrations/2024_11_19_1_create_roles_table.sql" connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" session-id="MAIN" current-schema="identity" />
     <mapping file-url="file://$PROJECT_DIR$/identity-service/src/main/resources/db/migrations/2024_11_18_1_create_users_table.sql" connection-id="bbca4809-90bb-43a4-96e4-1a438f2369ba" session-id="MAIN" current-schema="identity" />
+    <mapping file-url="file://$PROJECT_DIR$/employee-service/src/main/resources/db/seeds/2024_11_19_1_seed_employees_table.sql" connection-id="virtual-iso92-sql-connection" session-id="MAIN" current-schema="" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
@@ -80,6 +86,100 @@ insert into users(&quot;name&quot;, &quot;password&quot;) values
         </database>
         <properties>
           <auto-commit value="true" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="true" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="false" />
+          <environment-type value="default" />
+          <connectivity-timeout value="30" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <debugger>
+          <compile-dependencies value="true" />
+          <tcp-driver-tunneling value="false" />
+          <tcp-host-address value="" />
+          <tcp-port-from value="4000" />
+          <tcp-port-to value="4999" />
+          <debugger-type value="ASK" />
+        </debugger>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
+          <object-filters />
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+        </object-filters>
+      </connection>
+      <connection id="b38984aa-3e13-4b4b-b555-92c93af4d1c5" active="true" signed="true">
+        <database>
+          <name value="Employees" />
+          <description value="" />
+          <database-type value="POSTGRES" />
+          <config-type value="BASIC" />
+          <database-version value="17.1" />
+          <driver-source value="BUNDLED" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="DATABASE" />
+          <host value="localhost" />
+          <port value="5434" />
+          <database value="employees" />
+          <tns-folder value="" />
+          <tns-profile value="" />
+          <type value="USER_PASSWORD" />
+          <user value="admin" />
+          <deprecated-pwd value="MTIzNA==" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
         </properties>
         <ssh-settings>
           <active value="false" />

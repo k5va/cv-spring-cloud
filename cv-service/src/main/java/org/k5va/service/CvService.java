@@ -1,25 +1,20 @@
 package org.k5va.service;
 
+import lombok.RequiredArgsConstructor;
 import org.k5va.dto.CvDto;
+import org.k5va.mapper.CvMapper;
+import org.k5va.repository.CvRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-/**
- * @author Alexey Kulikov
- */
 @Service
+@RequiredArgsConstructor
 public class CvService {
+    private final CvRepository cvRepository;
+    private final CvMapper cvMapper;
+
     public CvDto getCv(Long id) {
-        return new CvDto(
-                id,
-                "education",
-                "description",
-                "workExperience",
-                List.of("skills"),
-                List.of("languages"),
-                List.of("certificates"),
-                "linkedId",
-                true);
+        return cvRepository.findById(id)
+                .map(cvMapper::toCvDto)
+                .orElseThrow();
     }
 }

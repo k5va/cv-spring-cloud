@@ -1,6 +1,13 @@
 spring:
   application:
     name: CV-SERVICE
+  data:
+    mongodb:
+      uri: mongodb://admin:123456@localhost:27017
+      database: cv
+
+mongock:
+  migration-scan-package: org.k5va.repository.changelog
 
 server:
   port: 0

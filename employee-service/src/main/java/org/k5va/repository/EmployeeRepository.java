@@ -17,8 +17,7 @@ public class EmployeeRepository {
 
     public Optional<EmployeesRecord> findById(Long id) {
         return Optional.ofNullable(
-                dslContext.select()
-                        .from(EMPLOYEES)
+                dslContext.selectFrom(EMPLOYEES)
                         .where(EMPLOYEES.ID.eq(id))
                         .fetchOne()
                         .into(EmployeesRecord.class)
@@ -26,8 +25,7 @@ public class EmployeeRepository {
     }
 
     public List<EmployeesRecord> findAll(Long id) {
-        return dslContext.select()
-                .from(EMPLOYEES)
+        return dslContext.selectFrom(EMPLOYEES)
                 .where(EMPLOYEES.ID.eq(id))
                 .fetch()
                 .into(EmployeesRecord.class);

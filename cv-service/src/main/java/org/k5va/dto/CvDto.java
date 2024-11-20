@@ -2,9 +2,6 @@ package org.k5va.dto;
 
 import java.util.List;
 
-/**
- * @author Alexey Kulikov
- */
 public record CvDto(
         Long id,
         String education,
