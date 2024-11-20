@@ -14,3 +14,37 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mapping,bus-refresh,bus-env,health,circuitbreakerevents,retry,beans
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    circuit-breaker-aspect-order: 1
+    instances:
+      cv-service:
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 2
+        minimumNumberOfCalls: 1
+        eventConsumerBufferSize: 10
+        registerHealthIndicator: true
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    retry-aspect-order: 2
+    instances:
+      cv-service:
+        maxAttempts: 15
+        waitDuration: 5000
