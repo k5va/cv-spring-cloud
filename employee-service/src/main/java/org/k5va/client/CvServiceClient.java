@@ -1,6 +1,7 @@
 package org.k5va.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.k5va.dto.CvDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ public interface CvServiceClient {
     Logger logger = LoggerFactory.getLogger(CvServiceClient.class);
 
     @GetMapping("/cv/{id}")
+    @Retry(name = "cv-service")
     @CircuitBreaker(name = "cv-service", fallbackMethod = "getCvByIdFallback")
     CvDto getCvById(@PathVariable Long id);
 

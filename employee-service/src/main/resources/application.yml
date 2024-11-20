@@ -46,5 +46,5 @@ resilience4j:
     retry-aspect-order: 2
     instances:
       cv-service:
-        maxAttempts: 15
+        maxAttempts: 3
         waitDuration: 5000
