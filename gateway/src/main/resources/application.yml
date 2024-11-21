@@ -24,12 +24,12 @@ spring:
             - Path=/auth/**
 
 server:
-  port: 8080
+  port: ${GATEWAY_PORT}
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_URL}
 
 jwt:
-  secret: 984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf
+  secret: ${JWT_SECRET}
