@@ -33,6 +33,8 @@ resilience4j:
     circuit-breaker-aspect-order: 1
     instances:
       cv-service:
+        ignore-exceptions:
+          - org.k5va.error.DataNotFoundException
         failureRateThreshold: 50
         automaticTransitionFromOpenToHalfOpenEnabled: true
         waitDurationInOpenState: 10s
