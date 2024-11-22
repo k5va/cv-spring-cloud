@@ -2,6 +2,7 @@ package org.k5va.config;
 
 import feign.Logger;
 import feign.codec.ErrorDecoder;
+import org.k5va.error.DataNotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class FeignClientConfig {
         return (methodKey, response) -> {
             HttpStatus status = HttpStatus.resolve(response.status());
             return switch (status) {
-                case NOT_FOUND -> new ResponseStatusException(status, methodKey + ": " + "Resource not found");
+                case NOT_FOUND -> new DataNotFoundException(methodKey + ": " + "Resource not found");
                 case BAD_REQUEST -> new ResponseStatusException(status, methodKey + ": " + response.reason());
                 default -> new ResponseStatusException(status, response.reason());
             };
