@@ -1,6 +1,12 @@
 spring:
   application:
     name: GATEWAY
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${ISSUER_URI}
   cloud:
     gateway:
       routes:
@@ -8,15 +14,11 @@ spring:
           uri: lb://EMPLOYEE-SERVICE
           predicates:
             - Path=/employee/**
-          filters:
-            - AuthenticationFilter
 
         - id: cv-service
           uri: lb://CV-SERVICE
           predicates:
             - Path=/cv/**
-          filters:
-            - AuthenticationFilter
 
         - id: identity-service
           uri: lb://IDENTITY-SERVICE
