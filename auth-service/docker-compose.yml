@@ -1,0 +1,30 @@
+services:
+  keycloak-db:
+    image: postgres:17-alpine
+    container_name: keycloak-db
+    restart: always
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - '5432:5432'
+    expose:
+      - 5432
+
+  keycloak:
+    image: bitnami/keycloak:26.0.6
+    container_name: keycloak
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_VENDOR: postgresql
+      KEYCLOAK_DATABASE_HOST: keycloak-db
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_SCHEMA: public
+      KEYCLOAK_DATABASE_USER: admin
+      KEYCLOAK_DATABASE_PASSWORD: admin
+    ports:
+      - "9080:8080"
+    depends_on:
+      - keycloak-db
