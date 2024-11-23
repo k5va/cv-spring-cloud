@@ -20,12 +20,13 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(auth -> auth.anyExchange().authenticated())
-                .oauth2ResourceServer(customizer ->
-                        customizer.authenticationManagerResolver(
-                                JwtIssuerReactiveAuthenticationManagerResolver
-                                        .fromTrustedIssuers(issuerUri)
-                        )
-                )
+                .oauth2ResourceServer(this::customizeResourceServer)
                 .build();
+    }
+
+    private void customizeResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec customizer) {
+        customizer.authenticationManagerResolver(JwtIssuerReactiveAuthenticationManagerResolver
+                .fromTrustedIssuers(issuerUri)
+        );
     }
 }
