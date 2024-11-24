@@ -24,9 +24,8 @@ public class EmployeeRepository {
         );
     }
 
-    public List<EmployeesRecord> findAll(Long id) {
+    public List<EmployeesRecord> findAll() {
         return dslContext.selectFrom(EMPLOYEES)
-                .where(EMPLOYEES.ID.eq(id))
                 .fetch()
                 .into(EmployeesRecord.class);
     }

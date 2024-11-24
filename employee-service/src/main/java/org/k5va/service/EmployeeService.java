@@ -8,6 +8,8 @@ import org.k5va.mapper.EmployeeMapper;
 import org.k5va.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
@@ -19,6 +21,12 @@ public class EmployeeService {
         return employeeRepository.findById(id)
                 .map(employeeMapper::toDto)
                 .orElseThrow();
+    }
+
+    public List<EmployeeDto> getAll() {
+        return employeeRepository.findAll().stream()
+                .map(employeeMapper::toDto)
+                .toList();
     }
 
     public CvDto getEmployeeCv(Long id) {

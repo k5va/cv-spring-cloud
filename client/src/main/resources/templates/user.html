@@ -10,6 +10,10 @@
             <p>
                 Hello <span data-th-text="${principal?.getName()}" />
             </p>
+            <p><a th:href="@{/employees}">Employees page</a></p>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Logout</button>
+            </form>
         </main>
     </body>
 </html>

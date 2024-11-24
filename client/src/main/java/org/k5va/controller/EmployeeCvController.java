@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 
@@ -21,9 +22,21 @@ public class EmployeeCvController {
     }
 
     @GetMapping("/")
-    public String getEmployeeCv(Model model) {
+    public String welcome() {
+        return "welcome";
+    }
+
+    @GetMapping("/cv/{employeeId}")
+    public String getEmployeeCv(@PathVariable Long employeeId, Model model) {
         model.addAttribute("cv",
-                employeeCvService.getEmployeeCv(1L));
+                employeeCvService.getEmployeeCv(employeeId));
         return "cv";
+    }
+
+    @GetMapping("/employees")
+    public String getAllEmployees(Model model) {
+        model.addAttribute("employees",
+                employeeCvService.getAllEmployees());
+        return "employees";
     }
 }

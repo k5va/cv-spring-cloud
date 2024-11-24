@@ -7,7 +7,6 @@ spring:
         provider:
           keycloak:
             issuer-uri: ${ISSUER_URI}
-            user-info-uri: http://localhost:9080/realms/cv-application/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
         registration:
           cv-app-authorization-code:
@@ -20,7 +19,9 @@ spring:
 server:
   port: 8090
 
-cv.server.url: ${CV_SERVER_URL}
+cv:
+  server:
+    url: ${CV_SERVER_URL}
 
 logging:
   level:

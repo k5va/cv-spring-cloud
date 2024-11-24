@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Employees</title>
+    </head>
+    <body>
+        <h1>List of employees</h1>
+        <ul th:each="employee : ${employees}">
+            <li>
+                <a th:href="@{/cv/{id}(id=${employee.id()})}" th:text="${employee.firstName()} + ' ' + ${employee.lastName()}"></a>
+            </li>
+        </ul>
+    </body>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</html>
