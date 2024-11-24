@@ -3,10 +3,9 @@ spring:
     name: GATEWAY
   security:
     oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: ${ISSUER_URI}
+      resourceserver:
+        jwt:
+          issuer-uri: ${ISSUER_URI}
   cloud:
     gateway:
       routes:
@@ -32,9 +31,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URL}
-
-jwt:
-  secret: ${JWT_SECRET}
 
 logging:
   level:

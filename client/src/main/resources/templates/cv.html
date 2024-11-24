@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Cv</title>
+    </head>
+    <body>
+        <h1>Резюме:</h1>
+        <p data-th-text="${cv?.id()}"></p>
+        <p data-th-text="${cv?.description()}"></p>
+        <p data-th-text="${cv?.education()}"></p>
+        <p data-th-text="${cv?.certificates()}"></p>
+        <p data-th-text="${cv?.skills()}"></p>
+        <p data-th-text="${cv?.languages()}"></p>
+    </body>
+</html>
