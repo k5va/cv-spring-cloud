@@ -21,6 +21,7 @@
         <module>cv-service</module>
         <module>gateway</module>
         <module>identity-service</module>
+        <module>client</module>
     </modules>
 
     <properties>

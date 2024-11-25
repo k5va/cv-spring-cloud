@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Cv</title>
+    </head>
+    <body>
+        <p><a th:href="@{/employees}">Employees page</a></p>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+        <div class="cv-container">
+            <h1>Резюме</h1>
+            <div class="cv-item">
+                <strong>ID:</strong> <span data-th-text="${cv?.id()}"></span>
+            </div>
+            <div class="cv-item">
+                <strong>Description:</strong> <span data-th-text="${cv?.description()}"></span>
+            </div>
+            <div class="cv-item">
+                <strong>Education:</strong> <span data-th-text="${cv?.education()}"></span>
+            </div>
+            <div class="cv-item">
+                <strong>Certificates:</strong> <span data-th-text="${cv?.certificates()}"></span>
+            </div>
+            <div class="cv-item">
+                <strong>Skills:</strong> <span data-th-text="${cv?.skills()}"></span>
+            </div>
+            <div class="cv-item">
+                <strong>Languages:</strong> <span data-th-text="${cv?.languages()}"></span>
+            </div>
+        </div>
+    </body>
+
+    <style>
+        .cv-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .cv-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cv-item:last-child {
+            border-bottom: none;
+        }
+
+        .cv-item strong {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</html>

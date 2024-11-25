@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: CV-CLIENT
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${ISSUER_URI}
+            user-name-attribute: preferred_username
+        registration:
+          cv-app-authorization-code:
+            provider: keycloak
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            scope:
+              - openid
+              - microprofile-jwt
+server:
+  port: 8090
+
+cv:
+  server:
+    url: ${CV_SERVER_URL}
+
+logging:
+  level:
+    org.k5va: INFO
+    org.springframework.security: DEBUG

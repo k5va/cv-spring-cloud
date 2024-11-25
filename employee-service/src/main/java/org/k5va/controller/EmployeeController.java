@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author Alexey Kulikov
  */
@@ -25,6 +27,12 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable Long id) {
         log.info("Get employee {}", id);
         return ResponseEntity.ok(employeeService.getById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+        log.info("Get all employees");
+        return ResponseEntity.ok(employeeService.getAll());
     }
 
     @GetMapping("/{id}/cv")

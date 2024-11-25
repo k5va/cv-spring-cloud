@@ -26,8 +26,6 @@ public class AuthService {
     public AccessToken getToken(AuthRequestDto request) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
-
-//        CvUserDetails userDetails = this.usersService.loadUserByUsername(authenticate.getName());
         List<String> roles = authenticate.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();

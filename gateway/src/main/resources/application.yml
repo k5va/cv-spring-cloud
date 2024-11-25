@@ -1,6 +1,11 @@
 spring:
   application:
     name: GATEWAY
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ISSUER_URI}
   cloud:
     gateway:
       routes:
@@ -8,15 +13,11 @@ spring:
           uri: lb://EMPLOYEE-SERVICE
           predicates:
             - Path=/employee/**
-          filters:
-            - AuthenticationFilter
 
         - id: cv-service
           uri: lb://CV-SERVICE
           predicates:
             - Path=/cv/**
-          filters:
-            - AuthenticationFilter
 
         - id: identity-service
           uri: lb://IDENTITY-SERVICE
@@ -31,5 +32,7 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URL}
 
-jwt:
-  secret: ${JWT_SECRET}
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
