@@ -14,21 +14,21 @@ spring:
   security:
     oauth2:
       authorizationserver:
-        issuer: http://localhost:9000
+        issuer: ${ISSUER_URI}
         client:
           cv-app-client:
             registration:
-              client-id: "cv-app-client"
-              client-secret: "{noop}secret"
+              client-id: ${CV_CLIENT_ID}
+              client-secret: ${CV_CLIENT_SECRET}
               client-authentication-methods:
                 - client_secret_basic
               authorization-grant-types:
                 - authorization_code
                 - refresh_token
               redirect-uris:
-                - "http://localhost:8090/login/oauth2/code/cv-app-client"
+                - ${CV_CLIENT_REDIRECT_URI}
               post-logout-redirect-uris:
-                - "http://localhost:8090"
+                - ${CV_CLIENT_POST_LOGOUT_REDIRECT_URI}
               scopes:
                 - openid
                 - profile
