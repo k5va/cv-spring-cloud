@@ -28,7 +28,7 @@ spring:
               redirect-uris:
                 - "http://localhost:8090/login/oauth2/code/cv-app-client"
               post-logout-redirect-uris:
-                - "http://localhost:8090/"
+                - "http://localhost:8090"
               scopes:
                 - openid
                 - profile
