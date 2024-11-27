@@ -1,4 +1,4 @@
-package org.k5va.security;
+package org.k5va.service;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

@@ -8,14 +8,28 @@ spring:
           keycloak:
             issuer-uri: ${ISSUER_URI}
             user-name-attribute: preferred_username
+          spring:
+            issuer-uri: http://localhost:9000
         registration:
           cv-app-authorization-code:
             provider: keycloak
             client-id: ${CLIENT_ID}
             client-secret: ${CLIENT_SECRET}
+            client-name: Keycloak
             scope:
               - openid
               - microprofile-jwt
+          cv-app-authorization-code-2:
+            provider: spring
+            client-id: ${CLIENT_ID}
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8090/login/oauth2/code/cv-app-client"
+            client-name: Spring authorization server
+            scope:
+              - openid
+              - microprofile-jwt
+
 server:
   port: 8090
 
@@ -26,4 +40,5 @@ cv:
 logging:
   level:
     org.k5va: INFO
-    org.springframework.security: DEBUG
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE

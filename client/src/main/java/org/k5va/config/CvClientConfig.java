@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
@@ -14,8 +15,6 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class CvClientConfig {
-    public static final String REGISTRATION_ID = "cv-app-authorization-code";
-
     @Bean
     public RestClient cvRestClient(@Value("${cv.server.url}") String cvServerUrl,
                                    OAuth2AuthorizedClientManager authorizedClientManager) {
@@ -23,9 +22,12 @@ public class CvClientConfig {
                 .baseUrl(cvServerUrl)
                 .requestInterceptor((request, body, execution) -> {
                     if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                        var token = authorizedClientManager.authorize(
-                                        OAuth2AuthorizeRequest.withClientRegistrationId(REGISTRATION_ID)
-                                                .principal(SecurityContextHolder.getContext().getAuthentication())
+                        OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder
+                                .getContext().getAuthentication();
+                        String token = authorizedClientManager.authorize(
+                                        OAuth2AuthorizeRequest.withClientRegistrationId(authentication
+                                                        .getAuthorizedClientRegistrationId())
+                                                .principal(authentication)
                                                 .build())
                                 .getAccessToken().getTokenValue();
 

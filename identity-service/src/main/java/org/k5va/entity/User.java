@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * @author Alexey Kulikov
- */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

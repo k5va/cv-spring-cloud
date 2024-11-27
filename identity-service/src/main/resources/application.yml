@@ -11,15 +11,44 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://localhost:9000
+        client:
+          cv-app-client:
+            registration:
+              client-id: "cv-app-client"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+              redirect-uris:
+                - "http://localhost:8090/login/oauth2/code/cv-app-client"
+              post-logout-redirect-uris:
+                - "http://localhost:8090/"
+              scopes:
+                - openid
+                - profile
+                - microprofile-jwt
 
 server:
-  port: 0
+  port: 9000
+  servlet:
+    session:
+      cookie:
+        name: AUTH_SERVER_SESSION_ID
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URL}
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: ${EUREKA_URL}
 
-jwt:
-  secret: ${JWT_SECRET}
-  lifetime: ${JWT_LIFETIME}
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG

@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${ISSUER_URI}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI},${SPRING_ISSUER_URI}
   cloud:
     gateway:
       routes:
