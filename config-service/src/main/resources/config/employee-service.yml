@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI},${SPRING_ISSUER_URI}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mapping,bus-refresh,bus-env,health,circuitbreakerevents,retry,beans
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    circuit-breaker-aspect-order: 1
+    instances:
+      cv-service:
+        ignore-exceptions:
+          - org.k5va.error.DataNotFoundException
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 2
+        minimumNumberOfCalls: 1
+        eventConsumerBufferSize: 10
+        registerHealthIndicator: true
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    retry-aspect-order: 2
+    instances:
+      cv-service:
+        maxAttempts: 3
+        waitDuration: 5000
+

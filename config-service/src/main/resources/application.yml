@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: CONFIG-SERVICE
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+  security:
+    user:
+      name: config
+      password: 1234
+      roles:
+        - CONFIG
+server:
+  port: 8888

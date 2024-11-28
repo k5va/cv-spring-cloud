@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: ${DB_URL}
+      database: ${DB_NAME}
+
+mongock:
+  migration-scan-package: org.k5va.repository.changelog
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}
