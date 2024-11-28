@@ -5,7 +5,7 @@ spring:
     import: 'optional:configserver:'
   cloud:
     config:
-      uri: http://config:1234@localhost:8888
+      uri: ${CONFIG_URI}
 
 server:
   port: 0

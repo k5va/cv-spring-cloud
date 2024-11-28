@@ -1,18 +1,18 @@
 spring:
-  profiles:
-    active: native
   application:
     name: CONFIG-SERVICE
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config
+        git:
+          uri: ${GIT_URI}
+          clone-on-start: true
+          default-label: master
   security:
     user:
-      name: config
-      password: 1234
+      name: ${USERNAME}
+      password: ${PASSWORD}
       roles:
         - CONFIG
 server:
-  port: 8888
+  port: ${PORT}
