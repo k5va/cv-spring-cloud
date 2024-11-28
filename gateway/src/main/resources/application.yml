@@ -19,11 +19,6 @@ spring:
           predicates:
             - Path=/cv/**
 
-        - id: identity-service
-          uri: lb://IDENTITY-SERVICE
-          predicates:
-            - Path=/auth/**
-
 server:
   port: ${GATEWAY_PORT}
 

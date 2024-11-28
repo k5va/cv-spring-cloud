@@ -33,6 +33,7 @@ spring:
                 - openid
                 - profile
                 - microprofile-jwt
+            require-authorization-consent: true
 
 server:
   port: 9000
@@ -40,11 +41,6 @@ server:
     session:
       cookie:
         name: AUTH_SERVER_SESSION_ID
-
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: ${EUREKA_URL}
 
 logging:
   level:
