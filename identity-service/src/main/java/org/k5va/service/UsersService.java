@@ -8,10 +8,10 @@ import org.k5va.entity.User;
 import org.k5va.mappers.UserMapper;
 import org.k5va.repository.RoleRepository;
 import org.k5va.repository.UserRepository;
-import org.k5va.security.CvUserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UsersService implements UserDetailsService {
+    private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 

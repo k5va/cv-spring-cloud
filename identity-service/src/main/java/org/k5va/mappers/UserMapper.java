@@ -4,9 +4,6 @@ import org.k5va.dto.CreateUserDto;
 import org.k5va.entity.User;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Alexey Kulikov
- */
 @Component
 public class UserMapper {
 

@@ -11,7 +11,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${ISSUER_URI}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI},${SPRING_ISSUER_URI}
 server:
   port: 0
 
@@ -55,3 +55,7 @@ resilience4j:
       cv-service:
         maxAttempts: 3
         waitDuration: 5000
+
+logging:
+  level:
+    org.springframework.security: DEBUG

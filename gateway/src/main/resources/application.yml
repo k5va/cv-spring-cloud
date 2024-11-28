@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${ISSUER_URI}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI},${SPRING_ISSUER_URI}
   cloud:
     gateway:
       routes:
@@ -18,11 +18,6 @@ spring:
           uri: lb://CV-SERVICE
           predicates:
             - Path=/cv/**
-
-        - id: identity-service
-          uri: lb://IDENTITY-SERVICE
-          predicates:
-            - Path=/auth/**
 
 server:
   port: ${GATEWAY_PORT}
