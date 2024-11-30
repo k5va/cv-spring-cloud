@@ -1,0 +1,19 @@
+meta {
+  name: Get user token (keycloak)
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:9080/realms/cv-application/protocol/openid-connect/token
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  grant_type: password
+  username: admin
+  password: 1234
+  client_id: cv-app-client
+  client_secret: hxonuVeRaymeYKqSU1CftYWycg4QDPZC
+}
