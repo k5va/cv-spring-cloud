@@ -1,0 +1,74 @@
+services:
+  kafka-1:
+    image: bitnami/kafka:latest
+    ports:
+      - "${KAFKA_1_EXPOSED_PORT}:9092"
+    environment:
+      # ИД узла в кластере
+      - KAFKA_CFG_NODE_ID=1
+      # ИД кластера
+      - KAFKA_KRAFT_CLUSTER_ID=${KAFKA_CLUSTER_ID:-123456}
+      # Роли данного сервера в кластере. Контроллер - управляет кластером (определяет кто лидер и тп).
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      # Это узлы, которые будут принимать участие в выборе новых контроллеров.
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9091, 2@kafka-2:9091, 3@kafka-3:9091
+      # На каких портах можно подключаться к данному узлу (будут открыты сокеты на этих портах)
+      # PLAINTEXT://:9090 - внутренний порт для брокера. (PLAINTEXT  по умолчанию имя и протокол - можно поменять, например INTERNAL)
+      # CONTROLLER://:9091 - для контроллера.
+      # EXTERNAL://:9092 - внешний порт для доступа к брокеру
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9090, CONTROLLER://:9091, EXTERNAL://:${KAFKA_1_EXPOSED_PORT}
+      # Данные для доступа к узлу (возвращаются при первом бутстрап подключении). По этим адресам
+      # будут подключаться клиенты и другие брокеры.
+      # В KRaft листенер для контроллера не нужно указывать в advertised listeners
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-1:9090, EXTERNAL://${HOSTNAME:-localhost}:9092
+      # Протоколы для взаимодействия c листенерами (например, PLAINTEXT, SSL).
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT, EXTERNAL:PLAINTEXT, PLAINTEXT:PLAINTEXT
+      # Имя листенеров для контроллеров
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      # Имя листенеров для межброкерного взаимодействия (можно поменять, например INTERNAL).
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    # Если удалить контейрер и потом создать заново то мы не потеряем данные
+  #    volumes:
+  #      - kafka-1:/bitnami/kafka
+
+  kafka-2:
+    image: bitnami/kafka:latest
+    ports:
+      - "${KAFKA_2_EXPOSED_PORT}:9094"
+    environment:
+      - KAFKA_CFG_NODE_ID=2
+      - KAFKA_KRAFT_CLUSTER_ID=${KAFKA_CLUSTER_ID:-123456}
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9091, 2@kafka-2:9091, 3@kafka-3:9091
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9090, CONTROLLER://:9091, EXTERNAL://:${KAFKA_2_EXPOSED_PORT}
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-2:9090, EXTERNAL://${HOSTNAME:-localhost}:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT, EXTERNAL:PLAINTEXT, PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+  #    volumes:
+  #      - kafka-2:/bitnami/kafka
+
+  kafka-3:
+    image: bitnami/kafka:latest
+    ports:
+      - "${KAFKA_3_EXPOSED_PORT}:9096"
+    environment:
+      - KAFKA_CFG_NODE_ID=3
+      - KAFKA_KRAFT_CLUSTER_ID=${KAFKA_CLUSTER_ID:-123456}
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9091, 2@kafka-2:9091, 3@kafka-3:9091
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9090, CONTROLLER://:9091, EXTERNAL://:${KAFKA_3_EXPOSED_PORT}
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-3:9090, EXTERNAL://${HOSTNAME:-localhost}:9096
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT, EXTERNAL:PLAINTEXT, PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+#    volumes:
+#      - kafka-3:/bitnami/kafka
+
+#volumes:
+#  kafka-1:
+#    driver: local
+#  kafka-2:
+#    driver: local
+#  kafka-3:
+#    driver: local

@@ -1,0 +1,40 @@
+services:
+  keycloak-db:
+    image: postgres:17-alpine
+    container_name: keycloak-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#    ports:
+#      - '5432:5432'
+    expose:
+      - 5432
+    volumes:
+      - keycloak-db:/var/lib/postgresql
+
+  keycloak:
+    image: bitnami/keycloak:26.0.6
+    container_name: keycloak
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_DATABASE_VENDOR: postgresql
+      KEYCLOAK_DATABASE_HOST: keycloak-db
+      KEYCLOAK_DATABASE_NAME: ${DB_NAME}
+      KEYCLOAK_DATABASE_SCHEMA: public
+      KEYCLOAK_DATABASE_USER: ${DB_USERNAME}
+      KEYCLOAK_DATABASE_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${KEYCLOAK_EXPOSED_PORT}:8080"
+    depends_on:
+      - keycloak-db
+    volumes:
+      - keycloak:/opt/jboss/keycloak/standalone/data
+
+volumes:
+  keycloak-db:
+    driver: local
+  keycloak:
+    driver: local
