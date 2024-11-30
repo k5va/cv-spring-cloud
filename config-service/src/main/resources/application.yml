@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: CONFIG-SERVICE
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_URI}
+          clone-on-start: true
+          default-label: master
+  security:
+    user:
+      name: ${USERNAME}
+      password: ${PASSWORD}
+      roles:
+        - CONFIG
+server:
+  port: ${PORT}
