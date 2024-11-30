@@ -16,37 +16,30 @@ public class EmployeeRepository {
     private final DSLContext dslContext;
 
     public Optional<EmployeesRecord> findById(Long id) {
-        return Optional.ofNullable(
-                dslContext.selectFrom(EMPLOYEES)
-                        .where(EMPLOYEES.ID.eq(id))
-                        .fetchOne()
-                        .into(EmployeesRecord.class)
-        );
+        return Optional.ofNullable(dslContext.selectFrom(EMPLOYEES)
+                .where(EMPLOYEES.ID.eq(id))
+                .fetchOne());
     }
 
     public List<EmployeesRecord> findAll() {
-        return dslContext.selectFrom(EMPLOYEES)
-                .fetch()
-                .into(EmployeesRecord.class);
+        return dslContext.selectFrom(EMPLOYEES).fetch();
     }
 
     public EmployeesRecord create(EmployeesRecord employee) {
-        return dslContext.insertInto(EMPLOYEES)
-                .values(employee)
-                .returningResult(EMPLOYEES)
-                .fetch()
-                .get(0)
-                .into(EmployeesRecord.class);
+        return Optional.ofNullable(dslContext.insertInto(EMPLOYEES)
+                        .values(employee)
+                        .returning()
+                        .fetchOne())
+                .orElseThrow(() -> new RuntimeException("Failed to return created employee"));
     }
 
     public EmployeesRecord update(EmployeesRecord employee) {
-        return dslContext.update(EMPLOYEES)
-                .set(employee)
-                .where(EMPLOYEES.ID.eq(employee.getId()))
-                .returningResult(EMPLOYEES)
-                .fetch()
-                .get(0)
-                .into(EmployeesRecord.class);
+        return Optional.ofNullable(dslContext.update(EMPLOYEES)
+                        .set(employee)
+                        .where(EMPLOYEES.ID.eq(employee.getId()))
+                        .returning()
+                        .fetchOne())
+                .orElseThrow(() -> new RuntimeException("Failed to return updated employee"));
     }
 
     public void delete(Long id) {
