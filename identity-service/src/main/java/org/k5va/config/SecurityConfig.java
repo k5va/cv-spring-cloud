@@ -35,17 +35,8 @@ public class SecurityConfig {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
-//                        oidcConfigurer -> oidcConfigurer
-//                        .userInfoEndpoint(userInfo -> userInfo
-//                                .userInfoMapper(context -> {
-//                                    OidcUserInfoAuthenticationToken authentication = context.getAuthentication();
-//                                    JwtAuthenticationToken principal = (JwtAuthenticationToken) authentication.getPrincipal();
-//
-//                                    return new OidcUserInfo(principal.getToken().getClaims());
-//                                })));
 
         return http
-//                .formLogin(Customizer.withDefaults())
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
                                 new LoginUrlAuthenticationEntryPoint("/login"),
@@ -55,7 +46,6 @@ public class SecurityConfig {
                 .oauth2ResourceServer(resourceServer -> resourceServer
                         .jwt(Customizer.withDefaults()))
                 .build();
-
     }
 
     /**
@@ -85,9 +75,4 @@ public class SecurityConfig {
                 context.getClaims().claim("realm_access", realmAccess);
         };
     }
-
-//    @Bean
-//    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-//        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-//    }
 }

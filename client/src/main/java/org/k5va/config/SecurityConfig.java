@@ -33,7 +33,6 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/employees/**", "/cv/**").hasAuthority("USER")
                         .anyRequest().authenticated())
-//                .oauth2Client(Customizer.withDefaults())
                 .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> logout
                         .logoutSuccessHandler(oidcLogoutSuccessHandler()))
