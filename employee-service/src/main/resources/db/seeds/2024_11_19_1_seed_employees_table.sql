@@ -1,17 +1,18 @@
 --liquibase formatted sql
 --changeset k5va:seed-employees-table
-insert into employees (id, cv_id, first_name, last_name, age)
+insert into employees (first_name, last_name, age)
 values
-(1, 1, 'John', 'Doe', 25),
-(2, 2, 'Jane', 'Doe', 30),
-(3, 3, 'John', 'Smith', 35),
-(4, 4, 'Jane', 'Smith', 40),
-(5, 5, 'John', 'Johnson', 45),
-(6, 6, 'Jane', 'Johnson', 50),
-(7, 7, 'John', 'Williams', 55),
-(8, 8, 'Jane', 'Williams', 60),
-(9, 9, 'John', 'Brown', 65),
-(10, 10, 'Jane', 'Brown', 70),
-(11, 11, 'John', 'Jones', 75);
+('John', 'Doe', 25),
+( 'Jane', 'Doe', 30),
+( 'John', 'Smith', 35),
+( 'Jane', 'Smith', 40),
+( 'John', 'Johnson', 45),
+( 'Jane', 'Johnson', 50),
+( 'John', 'Brown', 55),
+( 'Jane', 'Brown', 60),
+( 'John', 'Davis', 65),
+( 'Jane', 'Davis', 70),
+( 'John', 'Miller', 75),
+( 'Jane', 'Miller', 80);
 
 --rollback DROP TABLE employees;

@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class CvDocument {
     @Id
-    private Long id;
+    private String id;
 
     private String education;
 
@@ -33,4 +33,6 @@ public class CvDocument {
     private String linkedId;
 
     private boolean isOpenToWork;
+
+    private Long employeeId;
 }

@@ -1,12 +1,9 @@
-package org.k5va.dto;
+package org.k5va.events;
 
 import java.util.List;
 
-/**
- * @author Alexey Kulikov
- */
-public record CvDto(
-        Long id,
+public record CreateCvEvent(
+        Long employeeId,
         String education,
         String description,
         String workExperience,
@@ -15,4 +12,5 @@ public record CvDto(
         List<String> certificates,
         String linkedId,
         boolean isOpenToWork
-) {}
+) {
+}

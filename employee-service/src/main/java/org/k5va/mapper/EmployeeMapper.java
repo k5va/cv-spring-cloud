@@ -10,7 +10,6 @@ public class EmployeeMapper {
     public EmployeesRecord toRecord(EmployeeDto employeeDto) {
         return new EmployeesRecord(
                 employeeDto.id(),
-                employeeDto.cvId(),
                 employeeDto.firstName(),
                 employeeDto.lastName(),
                 employeeDto.age()
@@ -20,7 +19,6 @@ public class EmployeeMapper {
     public EmployeeDto toDto(EmployeesRecord record) {
         return new EmployeeDto(
                 record.getId(),
-                record.getCvId(),
                 record.getFirstName(),
                 record.getLastName(),
                 record.getAge()

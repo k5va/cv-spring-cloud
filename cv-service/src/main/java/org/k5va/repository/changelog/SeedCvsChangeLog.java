@@ -21,7 +21,6 @@ public class SeedCvsChangeLog {
 
         List<CvDocument> cvs = IntStream.range(0, CVS_COUNT)
                 .mapToObj(i -> CvDocument.builder()
-                        .id((long) i)
                         .education("MIT")
                         .description("i am top programmer")
                         .workExperience("I have been working for 5 years")

@@ -18,9 +18,9 @@ public interface CvServiceClient {
     @GetMapping("/cv/{id}")
     @Retry(name = "cv-service")
     @CircuitBreaker(name = "cv-service", fallbackMethod = "getCvByIdFallback")
-    CvDto getCvById(@PathVariable Long id);
+    CvDto getCvById(@PathVariable String id);
 
-    default CvDto getCvByIdFallback(Long id, Throwable t) {
+    default CvDto getCvByIdFallback(String id, Throwable t) {
         logger.warn("CV-SERVICE is not available, using fallback: {}", t.getMessage());
         return new CvDto(
                 id,
@@ -31,7 +31,8 @@ public interface CvServiceClient {
                 List.of("Russian", "English"),
                 List.of("Certificate 1", "Certificate 2"),
                 "linkedId",
-                true
+                true,
+                1L
         );
     }
 }

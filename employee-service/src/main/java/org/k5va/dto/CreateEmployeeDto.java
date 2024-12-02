@@ -2,8 +2,10 @@ package org.k5va.dto;
 
 import java.util.List;
 
-public record CvDto(
-        Long id,
+public record CreateEmployeeDto(
+        String firstName,
+        String lastName,
+        Integer age,
         String education,
         String description,
         String workExperience,
