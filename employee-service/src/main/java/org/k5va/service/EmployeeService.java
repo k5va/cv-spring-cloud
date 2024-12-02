@@ -33,7 +33,7 @@ public class EmployeeService {
     }
 
     public CvDto getEmployeeCv(String id) {
-        return cvClient.getCvById(id); //TODO: how to get cv by employee id
+        return cvClient.getCvByEmployeeId(id);
     }
 
     public EmployeeDto create(CreateEmployeeDto employeeDto) {

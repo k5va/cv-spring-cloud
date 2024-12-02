@@ -15,12 +15,12 @@ import java.util.List;
 public interface CvServiceClient {
     Logger logger = LoggerFactory.getLogger(CvServiceClient.class);
 
-    @GetMapping("/cv/{id}")
+    @GetMapping("/cv/employee/{id}")
     @Retry(name = "cv-service")
-    @CircuitBreaker(name = "cv-service", fallbackMethod = "getCvByIdFallback")
-    CvDto getCvById(@PathVariable String id);
+    @CircuitBreaker(name = "cv-service", fallbackMethod = "getCvByEmployeeIdFallback")
+    CvDto getCvByEmployeeId(@PathVariable String id);
 
-    default CvDto getCvByIdFallback(String id, Throwable t) {
+    default CvDto getCvByEmployeeIdFallback(String id, Throwable t) {
         logger.warn("CV-SERVICE is not available, using fallback: {}", t.getMessage());
         return new CvDto(
                 id,
