@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: STREAMING-SERVICE
+  kafka:
+    bootstrap-servers: localhost:9092, localhost:9094
+    streams:
+      state-store-cache-max-size: 0
+
+app:
+  kafka-topics:
+    outbox-topic:
+      name: cv-app.public.outbox
+    cv-topic:
+      name: cv-topic
+    unknown-outbox-topic:
+      name: unknown-outbox-topic

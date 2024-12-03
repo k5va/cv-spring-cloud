@@ -9,26 +9,6 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_URI}
-  kafka:
-    producer:
-      bootstrap-servers: localhost:9092, localhost:9094
-      acks: all
-      retries: 10
-      # повторять с интервалом 1 секунду
-      retry.backoff.ms: 1_000
-      properties:
-        linger.ms: 0
-        delivery.timeout.ms: 20_000
-        request.timeout.ms: 10_000
-        enable.idempotence: true
-
-app:
-  kafka-topics:
-    cv-topic:
-      name: cv-topic
-      partitions: 3
-      replicas: 3
-      min-in-sync-replicas: 2
 
 logging:
   level:

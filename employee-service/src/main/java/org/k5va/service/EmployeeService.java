@@ -53,8 +53,6 @@ public class EmployeeService {
         outboxRecord.setPayload(objectMapper.writeValueAsString(cvDto));
         outboxRepository.create(outboxRecord);
 
-//        cvProducer.sendCreateCvEvent(createdEmployee.getId(), employeeDto);
-
         return employeeMapper.toDto(createdEmployee);
     }
 }
