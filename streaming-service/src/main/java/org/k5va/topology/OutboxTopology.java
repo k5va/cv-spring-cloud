@@ -22,7 +22,7 @@ import org.springframework.kafka.support.serializer.JsonSerde;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class StreamingTopology {
+public class OutboxTopology {
 
     private final ObjectMapper outboxObjectMapper;
 
@@ -36,8 +36,8 @@ public class StreamingTopology {
     private String cvTopic;
 
     @Bean
-    public KStream<String, OutboxDto> outboxTopology(StreamsBuilder streamsBuilder,
-                                                     JsonSerde<OutboxDto> outboxDtoJsonSerde) {
+    public KStream<String, OutboxDto> outboxStream(StreamsBuilder streamsBuilder,
+                                                   JsonSerde<OutboxDto> outboxDtoJsonSerde) {
 
         JsonSerde<CvDto> cvSerde = new JsonSerde<>();
         Serde<String> keySerde = Serdes.String();
@@ -46,18 +46,18 @@ public class StreamingTopology {
                 .stream(outboxTopic, Consumed.with(keySerde, outboxDtoJsonSerde))
                 .peek((key, value) -> log.debug("Incoming outbox key {}, value {}", key, value));
 
-        var typeMap = outboxStream
+        var outboxTypeStreamMap = outboxStream
                 .split(Named.as("type-"))
                 .branch((key, outboxDto) -> true, //TODO: check outbox type
                         Branched.as("cv"))
                 .defaultBranch(Branched.as("unknown"));
 
-        typeMap
+        outboxTypeStreamMap
                 .get("type-cv")
                 .mapValues(this::parseCvDto)
                 .to(cvTopic, Produced.with(keySerde, cvSerde));
 
-        typeMap
+        outboxTypeStreamMap
                 .get("type-unknown")
                 .to(unknownOutboxTopic, Produced.with(keySerde, outboxDtoJsonSerde));
 
