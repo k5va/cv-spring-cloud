@@ -11,7 +11,7 @@ spring:
       uri: ${CONFIG_URI}
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092, localhost:9094
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
       group-id: cv-request
       isolation-level: READ_COMMITTED
       auto-offset-reset: latest
