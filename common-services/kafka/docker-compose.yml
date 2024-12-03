@@ -1,6 +1,7 @@
 services:
   kafka-1:
     image: bitnami/kafka:latest
+    restart: always
     ports:
       - "${KAFKA_1_EXPOSED_PORT}:9092"
     environment:
@@ -18,6 +19,7 @@ services:
 
   kafka-2:
     image: bitnami/kafka:latest
+    restart: always
     ports:
       - "${KAFKA_2_EXPOSED_PORT}:9094"
     environment:
@@ -35,6 +37,7 @@ services:
 
   kafka-3:
     image: bitnami/kafka:latest
+    restart: always
     ports:
       - "${KAFKA_3_EXPOSED_PORT}:9096"
     environment:
@@ -49,6 +52,22 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
 #    volumes:
 #      - kafka-3:/bitnami/kafka
+
+  debezium:
+    image: debezium/connect:3.0.0.Final
+    environment:
+      BOOTSTRAP_SERVERS: kafka-1:9090
+      KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    ports:
+      - "8083:8083"
 
 #volumes:
 #  kafka-1:

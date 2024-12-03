@@ -29,6 +29,7 @@ public class SeedCvsChangeLog {
                         .certificates(List.of("Certificate 1", "Certificate 2"))
                         .linkedId("linkedId")
                         .isOpenToWork(true)
+                        .employeeId(1L)
                         .build())
                 .toList();
 
