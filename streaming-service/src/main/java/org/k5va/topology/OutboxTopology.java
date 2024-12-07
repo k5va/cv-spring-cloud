@@ -21,19 +21,21 @@ import org.springframework.kafka.support.serializer.JsonSerde;
 
 @Configuration
 @Slf4j
-@RequiredArgsConstructor
 public class OutboxTopology {
-
     private final ObjectMapper outboxObjectMapper;
+    private final String outboxTopic;
+    private final String unknownOutboxTopic;
+    private final String cvTopic;
 
-    @Value("${app.kafka-topics.outbox-topic.name}")
-    private String outboxTopic;
-
-    @Value("${app.kafka-topics.unknown-outbox-topic.name}")
-    private String unknownOutboxTopic;
-
-    @Value("${app.kafka-topics.cv-topic.name}")
-    private String cvTopic;
+    public OutboxTopology(ObjectMapper outboxObjectMapper,
+                          @Value("${app.kafka-topics.outbox-topic.name}") String outboxTopic,
+                          @Value("${app.kafka-topics.unknown-outbox-topic.name}") String unknownOutboxTopic,
+                          @Value("${app.kafka-topics.cv-topic.name}") String cvTopic) {
+        this.outboxObjectMapper = outboxObjectMapper;
+        this.outboxTopic = outboxTopic;
+        this.unknownOutboxTopic = unknownOutboxTopic;
+        this.cvTopic = cvTopic;
+    }
 
     @Bean
     public KStream<String, OutboxDto> outboxStream(StreamsBuilder streamsBuilder,

@@ -1,0 +1,12 @@
+spring:
+  config:
+    import: 'optional:configserver:'
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      auto-offset-reset: earliest
+  main:
+    allow-bean-definition-overriding: true
+mongock:
+  enabled: false
