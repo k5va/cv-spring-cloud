@@ -23,6 +23,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,12 +73,15 @@ class CvEventsHandlerTest {
                 1L);
 
         String messageKey = cvDto.employeeId().toString();
+        String messageId = UUID.randomUUID().toString();
         ProducerRecord<String, Object> producerRecord = new ProducerRecord<>(topic, messageKey, cvDto);
         producerRecord.headers().add(KafkaHeaders.RECEIVED_KEY, messageKey.getBytes());
+        producerRecord.headers().add("messageId", messageId.getBytes());
 
         doReturn(cvDto).when(cvService).create(any(CvDto.class));
 
         ArgumentCaptor<String> messageKeyCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> messageIdCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<CvDto> processedEventCaptor = ArgumentCaptor.forClass(CvDto.class);
 
         // when
@@ -85,8 +89,11 @@ class CvEventsHandlerTest {
 
         // then
         verify(cvEventsHandler, timeout(5_000).times(1))
-                .handle(processedEventCaptor.capture(), messageKeyCaptor.capture());
+                .handle(processedEventCaptor.capture(),
+                        messageKeyCaptor.capture(),
+                        messageIdCaptor.capture());
         assertEquals(messageKey, messageKeyCaptor.getValue());
+        assertEquals(messageId, messageIdCaptor.getValue());
         assertEquals(cvDto, processedEventCaptor.getValue());
     }
 }

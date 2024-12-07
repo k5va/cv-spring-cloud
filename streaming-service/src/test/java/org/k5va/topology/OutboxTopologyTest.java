@@ -12,6 +12,7 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
+import org.apache.kafka.streams.test.TestRecord;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,8 +44,12 @@ class OutboxTopologyTest {
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, JsonSerde.class.getName());
 
-        new OutboxTopology(outboxObjectMapper(), OUTBOX_TOPIC, UNKNOWN_OUTBOX_TOPIC, CV_TOPIC)
-                .outboxStream(streamsBuilder, outboxDtoJsonSerde());
+        new OutboxTopology().outboxStream(streamsBuilder,
+                        outboxDtoJsonSerde(),
+                        outboxObjectMapper(),
+                        OUTBOX_TOPIC,
+                        UNKNOWN_OUTBOX_TOPIC,
+                        CV_TOPIC);
 
         Topology topology = streamsBuilder.build();
         topologyTestDriver = new TopologyTestDriver(topology, props);
@@ -97,8 +102,9 @@ class OutboxTopologyTest {
         outboxTopic.pipeInput(outboxDto.id(), outboxDto);
 
         //Then
-        CvDto receivedCvDto = cvTopic.readRecord().value();
-        assertEquals(cvDto, receivedCvDto);
+        TestRecord<String, CvDto> record = cvTopic.readRecord();
+        assertEquals(cvDto, record.value());
+        assertArrayEquals(outboxDto.id().getBytes(), record.headers().lastHeader("messageId").value());
         assertTrue(this.unknownOutboxTopic.isEmpty());
     }
 
