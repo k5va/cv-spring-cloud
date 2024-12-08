@@ -10,4 +10,10 @@ services:
       POSTGRES_DB: ${DB_NAME}
     ports:
       - '${DB_PORT}:5432'
+    volumes:
+      - employees-db:/var/lib/postgresql
     command: [ "postgres", "-c", "wal_level=logical" ]
+
+volumes:
+  employees-db:
+    driver: local

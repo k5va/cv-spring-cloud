@@ -14,8 +14,8 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT, EXTERNAL:PLAINTEXT, PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-  #    volumes:
-  #      - kafka-1:/bitnami/kafka
+    volumes:
+      - kafka-1:/bitnami/kafka
 
   kafka-2:
     image: bitnami/kafka:latest
@@ -32,8 +32,8 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT, EXTERNAL:PLAINTEXT, PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-  #    volumes:
-  #      - kafka-2:/bitnami/kafka
+    volumes:
+      - kafka-2:/bitnami/kafka
 
   kafka-3:
     image: bitnami/kafka:latest
@@ -50,11 +50,12 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT, EXTERNAL:PLAINTEXT, PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-#    volumes:
-#      - kafka-3:/bitnami/kafka
+    volumes:
+      - kafka-3:/bitnami/kafka
 
   debezium:
     image: debezium/connect:3.0.0.Final
+    restart: always
     environment:
       BOOTSTRAP_SERVERS: kafka-1:9090
       KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
@@ -68,11 +69,15 @@ services:
       - kafka-3
     ports:
       - "8083:8083"
+    volumes:
+      - debezium:/debezium
 
-#volumes:
-#  kafka-1:
-#    driver: local
-#  kafka-2:
-#    driver: local
-#  kafka-3:
-#    driver: local
+volumes:
+  debezium:
+    driver: local
+  kafka-1:
+    driver: local
+  kafka-2:
+    driver: local
+  kafka-3:
+    driver: local

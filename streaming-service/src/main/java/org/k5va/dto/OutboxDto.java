@@ -5,5 +5,6 @@ import java.time.LocalDateTime;
 public record OutboxDto(
         String id,
         LocalDateTime createdAt,
-        String payload
+        String payload,
+        OutboxType type
 ) {}

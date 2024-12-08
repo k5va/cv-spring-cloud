@@ -14,8 +14,8 @@ public class OutboxRepository {
 
     public void create(OutboxRecord outboxRecord) {
         dslContext
-                .insertInto(OUTBOX, OUTBOX.PAYLOAD)
-                .values(outboxRecord.getPayload())
+                .insertInto(OUTBOX, OUTBOX.PAYLOAD, OUTBOX.TYPE)
+                .values(outboxRecord.getPayload(), outboxRecord.getType())
                 .execute();
     }
 }

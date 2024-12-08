@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.k5va.dto.CvDto;
 import org.k5va.dto.OutboxDto;
+import org.k5va.dto.OutboxType;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerde;
 
@@ -95,7 +96,8 @@ class OutboxTopologyTest {
                   "isOpenToWork": true,
                   "employeeId":18
                 }
-                """);
+                """,
+                OutboxType.CV);
         CvDto cvDto = outboxObjectMapper().readValue(outboxDto.payload(), CvDto.class);
 
         //When

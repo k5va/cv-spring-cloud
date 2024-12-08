@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.k5va.dto.CvDto;
 import org.k5va.repository.CvRepository;
+import org.k5va.repository.ProcessedEventRepository;
 import org.k5va.service.CvService;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -55,6 +57,9 @@ class CvEventsHandlerTest {
     @MockBean
     private CvRepository cvRepository;
 
+    @MockBean
+    private ProcessedEventRepository processedEventRepository;
+
     @SpyBean
     private CvEventsHandler cvEventsHandler;
 
@@ -78,6 +83,7 @@ class CvEventsHandlerTest {
         producerRecord.headers().add(KafkaHeaders.RECEIVED_KEY, messageKey.getBytes());
         producerRecord.headers().add("messageId", messageId.getBytes());
 
+        doReturn(Optional.empty()).when(processedEventRepository).findByMessageId(messageId);
         doReturn(cvDto).when(cvService).create(any(CvDto.class));
 
         ArgumentCaptor<String> messageKeyCaptor = ArgumentCaptor.forClass(String.class);

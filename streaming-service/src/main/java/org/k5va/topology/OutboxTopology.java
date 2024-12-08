@@ -16,6 +16,7 @@ import org.apache.kafka.streams.processor.api.ProcessorContext;
 import org.apache.kafka.streams.processor.api.Record;
 import org.k5va.dto.CvDto;
 import org.k5va.dto.OutboxDto;
+import org.k5va.dto.OutboxType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,11 +40,11 @@ public class OutboxTopology {
         KStream<String, OutboxDto> outboxStream = streamsBuilder
                 .stream(outboxTopic, Consumed.with(keySerde, outboxDtoJsonSerde))
                 .process(OutboxProcessor::new)
-                .peek((key, value) -> log.debug("Incoming outbox key {}, value {}", key, value));
+                .peek((key, value) -> log.info("Incoming outbox key {}, value {}", key, value));
 
         var outboxTypeStreamMap = outboxStream
                 .split(Named.as("type-"))
-                .branch((key, outboxDto) -> true, //TODO: check outbox type
+                .branch((key, outboxDto) -> outboxDto.type() == OutboxType.CV,
                         Branched.as("cv"))
                 .defaultBranch(Branched.as("unknown"));
 
