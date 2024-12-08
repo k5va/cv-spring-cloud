@@ -1,9 +1,11 @@
 package org.k5va;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.debezium.testing.testcontainers.ConnectorConfiguration;
 import io.debezium.testing.testcontainers.DebeziumContainer;
+import lombok.SneakyThrows;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,6 +17,7 @@ import org.k5va.generated.tables.records.OutboxRecord;
 import org.k5va.repository.OutboxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
@@ -31,6 +34,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 import org.testcontainers.utility.DockerImageName;
 
+import java.io.File;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -45,6 +49,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {DisableSecurityConfig.class})
 @SpringBootTest()
 public class CdcTest {
+    public static final String EMPLOYEES_DBZ_CONNECTOR = "employees-dbz-connector";
     private static final Network network = Network.newNetwork();
 
     private static final KafkaContainer kafkaContainer = new KafkaContainer(
@@ -68,27 +73,8 @@ public class CdcTest {
         Startables
                 .deepStart(Stream.of(kafkaContainer, postgresContainer, debeziumContainer))
                 .join();
-        debeziumContainer.registerConnector("employees-dbz-connector",
-                ConnectorConfiguration
-                        .create()
-                        .with("connector.class", "io.debezium.connector.postgresql.PostgresConnector")
-                        .with("database.hostname", postgresContainer.getNetworkAliases().get(0))
-                        .with("database.port", postgresContainer.getExposedPorts().get(0))
-                        .with("database.user", postgresContainer.getUsername())
-                        .with("database.password", postgresContainer.getPassword())
-                        .with("database.dbname", postgresContainer.getDatabaseName())
-                        .with("plugin.name", "pgoutput")
-                        .with("database.server.name", "source")
-                        .with("key.converter.schemas.enable", false)
-                        .with("value.converter.schemas.enable", false)
-                        .with("transforms", "unwrap")
-                        .with("transforms.unwrap.type", "io.debezium.transforms.ExtractNewRecordState")
-                        .with("value.converter", "org.apache.kafka.connect.json.JsonConverter")
-                        .with("key.converter", "org.apache.kafka.connect.json.JsonConverter")
-                        .with("table.include.list", "public.outbox")
-                        .with("slot.name", "dbz_employees_slot")
-                        .with("topic.prefix", "cv-app")
-        );
+
+        debeziumContainer.registerConnector(EMPLOYEES_DBZ_CONNECTOR, loadConnectorConfiguration());
     }
 
     @Autowired
@@ -97,7 +83,7 @@ public class CdcTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private KafkaMessageListenerContainer<String, String> container;
+    private KafkaMessageListenerContainer<String, String> kafkaMessageListenerContainer;
 
     private BlockingQueue<ConsumerRecord<String, String>> records;
 
@@ -122,14 +108,12 @@ public class CdcTest {
 
         var containerProperties = new ContainerProperties("cv-app.public.outbox");
         // Message listener container (consumer)
-        container = new KafkaMessageListenerContainer<>(consumerFactory, containerProperties);
+        kafkaMessageListenerContainer = new KafkaMessageListenerContainer<>(consumerFactory, containerProperties);
         // queue for storing consumed messages
         records = new LinkedBlockingQueue<>();
         // setups a message listener to add messages to the queue
-        container.setupMessageListener((MessageListener<String, String>) records::add);
-        container.start();
-        // waits until the container has a proper assignment to all 3 partitions
-//        ContainerTestUtils.waitForAssignment(container, kafkaContainer.getPartitionsPerTopic());
+        kafkaMessageListenerContainer.setupMessageListener((MessageListener<String, String>) records::add);
+        kafkaMessageListenerContainer.start();
     }
 
     @Test
@@ -147,5 +131,32 @@ public class CdcTest {
         assertNotNull(record.key());
         assertNotNull(record.value());
         assertEquals(outboxRecord.getPayload(), objectMapper.readTree(record.value()).get("payload").asText());
+    }
+
+    @SneakyThrows
+    private static ConnectorConfiguration loadConnectorConfiguration() {
+        File connectorConfigFile = new ClassPathResource("employees-dbz-connector.json").getFile();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode configNode = objectMapper.readTree(connectorConfigFile).get("config");
+
+        return ConnectorConfiguration
+                .create()
+                .with("connector.class", configNode.get("connector.class").asText())
+                .with("database.hostname", postgresContainer.getNetworkAliases().get(0))
+                .with("database.port", postgresContainer.getExposedPorts().get(0))
+                .with("database.user", postgresContainer.getUsername())
+                .with("database.password", postgresContainer.getPassword())
+                .with("database.dbname", postgresContainer.getDatabaseName())
+                .with("plugin.name", configNode.get("plugin.name").asText())
+                .with("database.server.name", configNode.get("database.server.name").asText())
+                .with("key.converter.schemas.enable", configNode.get("key.converter.schemas.enable").asBoolean())
+                .with("value.converter.schemas.enable", configNode.get("value.converter.schemas.enable").asBoolean())
+                .with("transforms", configNode.get("transforms").asText())
+                .with("transforms.unwrap.type", configNode.get("transforms.unwrap.type").asText())
+                .with("value.converter", configNode.get("value.converter").asText())
+                .with("key.converter", configNode.get("key.converter").asText())
+                .with("table.include.list", configNode.get("table.include.list").asText())
+                .with("slot.name", configNode.get("slot.name").asText())
+                .with("topic.prefix", configNode.get("topic.prefix").asText());
     }
 }
