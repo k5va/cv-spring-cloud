@@ -26,8 +26,11 @@ public class EmployeeRepository {
     }
 
     public EmployeesRecord create(EmployeesRecord employee) {
-        return Optional.ofNullable(dslContext.insertInto(EMPLOYEES)
-                        .values(employee)
+        return Optional.ofNullable(dslContext.insertInto(EMPLOYEES,
+                                EMPLOYEES.FIRST_NAME,
+                                EMPLOYEES.LAST_NAME,
+                                EMPLOYEES.AGE)
+                        .values(employee.getFirstName(), employee.getLastName(), employee.getAge())
                         .returning()
                         .fetchOne())
                 .orElseThrow(() -> new RuntimeException("Failed to return created employee"));

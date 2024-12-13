@@ -3,7 +3,7 @@ package org.k5va.dto;
 import java.util.List;
 
 public record CvDto(
-        Long id,
+        String id,
         String education,
         String description,
         String workExperience,
@@ -11,5 +11,6 @@ public record CvDto(
         List<String> languages,
         List<String> certificates,
         String linkedId,
-        boolean isOpenToWork
+        boolean isOpenToWork,
+        Long employeeId
 ) {}

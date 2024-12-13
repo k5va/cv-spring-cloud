@@ -18,8 +18,14 @@ public class CvController {
     private final CvService cvService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CvDto> getCv(@PathVariable Long id) {
+    public ResponseEntity<CvDto> getCv(@PathVariable String id) {
         log.info("Get cv {}", id);
         return ResponseEntity.ok(cvService.getCv(id));
+    }
+
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<CvDto> getCvByEmployeeId(@PathVariable Long id) {
+        log.info("Get cv by employee id {}", id);
+        return ResponseEntity.ok(cvService.getCvByEmployeeId(id));
     }
 }

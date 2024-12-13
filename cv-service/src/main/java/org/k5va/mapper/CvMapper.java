@@ -16,7 +16,23 @@ public class CvMapper {
                 cvDocument.getLanguages(),
                 cvDocument.getCertificates(),
                 cvDocument.getLinkedId(),
-                cvDocument.isOpenToWork()
+                cvDocument.isOpenToWork(),
+                cvDocument.getEmployeeId()
+        );
+    }
+
+    public CvDocument toCvDocument(CvDto cvDto) {
+        return new CvDocument(
+                cvDto.id(),
+                cvDto.education(),
+                cvDto.description(),
+                cvDto.workExperience(),
+                cvDto.skills(),
+                cvDto.languages(),
+                cvDto.certificates(),
+                cvDto.linkedId(),
+                cvDto.isOpenToWork(),
+                cvDto.employeeId()
         );
     }
 }

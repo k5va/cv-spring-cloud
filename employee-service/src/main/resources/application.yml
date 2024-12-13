@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 spring:
   application:
     name: EMPLOYEE-SERVICE
@@ -6,9 +9,6 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_URI}
-
-server:
-  port: 0
 
 logging:
   level:

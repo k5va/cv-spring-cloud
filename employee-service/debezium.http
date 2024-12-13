@@ -1,0 +1,9 @@
+### GET list of connectors
+GET http://localhost:8083/connectors
+Accept: application/json
+
+### Create postgresql connector
+POST http://localhost:8083/connectors
+Content-Type: application/json
+
+< ./src/main/resources/employees-dbz-connector.json

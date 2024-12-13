@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: EMPLOYEE-SERVICE
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  config:
+    import: 'optional:configserver:'
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: 'none'
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG

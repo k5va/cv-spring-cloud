@@ -1,0 +1,36 @@
+meta {
+  name: Create employee
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:8080/employee
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "Superman",
+    "lastName": "Strong",
+    "age": 30,
+    "education": "MIT",
+    "description": "i am top programmer",
+    "workExperience": "I have been working for 5 years",
+    "skills": [
+      "Java",
+      "Python"
+    ],
+    "languages": [
+      "Russian",
+      "English"
+    ],
+    "certificates": [
+      "Certificate 1",
+      "Certificate 2"
+    ],
+    "linkedId": "linkedId",
+    "isOpenToWork": true
+  }
+}

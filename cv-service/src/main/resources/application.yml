@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 spring:
   application:
     name: CV-SERVICE
@@ -6,6 +9,14 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_URI}
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      group-id: cv-request
+      isolation-level: READ_COMMITTED
+      auto-offset-reset: latest
 
-server:
-  port: 0
+app:
+  kafka-topics:
+    cv-topic:
+      name: cv-topic
