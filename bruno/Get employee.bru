@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: http://localhost:8080/employee/2
+  url: {{URL}}/employee/:id
   body: none
   auth: inherit
+}
+
+params:path {
+  id: 1
 }

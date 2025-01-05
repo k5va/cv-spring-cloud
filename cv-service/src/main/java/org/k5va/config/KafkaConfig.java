@@ -33,7 +33,7 @@ public class KafkaConfig {
         config.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, kafkaProperties.getIsolationLevel().toLowerCase());
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, kafkaProperties.getAutoOffsetReset());
 
-        config.put(JsonDeserializer.TRUSTED_PACKAGES, "org.k5va.dto");
+        config.put(JsonDeserializer.TRUSTED_PACKAGES, "org.k5va.*");
 
         return config;
     }

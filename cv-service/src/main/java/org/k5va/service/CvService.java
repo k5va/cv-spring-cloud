@@ -6,6 +6,7 @@ import org.k5va.mapper.CvMapper;
 import org.k5va.repository.CvRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,13 @@ public class CvService {
                 .map(cvMapper::toCvDto)
                 .orElseThrow();
     }
+
+    public List<CvDto> getCvs() {
+        return cvRepository.findAll()
+                .stream()
+                .map(cvMapper::toCvDto)
+                .toList();
+        }
 
     public CvDto getCvByEmployeeId(Long id) {
         return cvRepository.findByEmployeeId(id)

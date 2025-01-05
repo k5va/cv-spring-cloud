@@ -1,11 +1,6 @@
 spring:
   application:
     name: GATEWAY
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${KEYCLOAK_ISSUER_URI},${SPRING_ISSUER_URI}
   cloud:
     gateway:
       routes:
