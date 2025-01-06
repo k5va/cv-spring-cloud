@@ -17,5 +17,7 @@ public class KafkaProperties {
 
     private Integer retries;
 
+    private String transactionIdPrefix;
+
     private Map<String, String> properties;
 }

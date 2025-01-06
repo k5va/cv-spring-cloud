@@ -1,10 +1,10 @@
 meta {
-  name: Create all cvs
+  name: Get all cvs
   type: http
   seq: 10
 }
 
-post {
+get {
   url: {{URL}}/cv
   body: json
   auth: inherit
