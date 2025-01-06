@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.k5va.dto.CvDto;
 import org.k5va.dto.OutboxType;
 import org.k5va.generated.tables.records.OutboxRecord;
+import org.k5va.processor.OutboxProcessor;
 import org.k5va.producer.CvProducer;
 import org.k5va.repository.OutboxRepository;
 import org.springframework.stereotype.Service;
@@ -17,30 +18,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OutboxService {
     private final OutboxRepository outboxRepository;
-    private final ObjectMapper objectMapper;
-    private final CvProducer cvProducer;
+    private final OutboxProcessor outboxProcessor;
 
     @Transactional
     public void processOutbox() {
         outboxRepository.selectRecordsToRetry().forEach(this::processOutBoxItem);
     }
 
-    private void processOutBoxItem(OutboxRecord outboxItem) {
+    private void processOutBoxItem(OutboxRecord outboxRecord) {
         try {
-            CvDto cvDto = objectMapper.readValue(outboxItem.getPayload(), CvDto.class);
-            cvProducer.sendCreateCvEvent(cvDto);
-            outboxRepository.delete(outboxItem);
-            log.info("Processed data: {}", outboxItem.getPayload());
+            outboxProcessor.process(outboxRecord);
+            outboxRepository.delete(outboxRecord);
+            log.info("Processed data: {}", outboxRecord.getPayload());
         } catch (Exception e) {
             log.warn("Failed to process data", e);
         }
     }
 
     @SneakyThrows
-    public void createOutboxRecord(CvDto cvDto) {
+    public void createOutboxRecord(String payload, OutboxType type) {
         OutboxRecord outboxRecord = new OutboxRecord();
-        outboxRecord.setPayload(objectMapper.writeValueAsString(cvDto));
-        outboxRecord.setType(OutboxType.CV.name());
+        outboxRecord.setPayload(payload);
+        outboxRecord.setType(type.name());
         outboxRepository.create(outboxRecord);
     }
 }

@@ -7,6 +7,7 @@ import org.k5va.client.CvServiceClient;
 import org.k5va.dto.CreateEmployeeDto;
 import org.k5va.dto.CvDto;
 import org.k5va.dto.EmployeeDto;
+import org.k5va.dto.OutboxType;
 import org.k5va.generated.tables.records.EmployeesRecord;
 import org.k5va.mapper.EmployeeMapper;
 import org.k5va.repository.EmployeeRepository;
@@ -48,7 +49,7 @@ public class EmployeeService {
 
         CvDto cvDto = employeeMapper.toCvDto(employeeDto, createdEmployee.getId());
 //        cvProducer.sendCreateCvEvent(createdEmployee.getId(), cvDto);
-        outboxService.createOutboxRecord(cvDto);
+        outboxService.createOutboxRecord(objectMapper.writeValueAsString(cvDto), OutboxType.CV);
 
         return employeeMapper.toDto(createdEmployee);
     }
