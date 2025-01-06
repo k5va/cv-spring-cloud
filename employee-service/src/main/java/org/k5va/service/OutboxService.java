@@ -8,7 +8,6 @@ import org.k5va.dto.CvDto;
 import org.k5va.dto.OutboxType;
 import org.k5va.generated.tables.records.OutboxRecord;
 import org.k5va.processor.OutboxProcessor;
-import org.k5va.producer.CvProducer;
 import org.k5va.repository.OutboxRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

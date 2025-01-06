@@ -34,4 +34,5 @@ logging:
   level:
     org.springframework.jdbc.support.JdbcTransactionManager: DEBUG
     org.apache.kafka.clients.producer.internals.TransactionManager: DEBUG
+#    org.jooq: DEBUG
 
