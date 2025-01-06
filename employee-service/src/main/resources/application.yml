@@ -14,8 +14,7 @@ spring:
       bootstrap-servers: localhost:9092, localhost:9094
       acks: all
       retries: 10
-      transaction-id-prefix: producer-service-${random.value}-
-      # повторять с интервалом 1 секунду
+#      transaction-id-prefix: producer-service-${random.value}-
       retry.backoff.ms: 1_000
       properties:
         linger.ms: 0

@@ -29,7 +29,7 @@ public class KafkaConfig {
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         config.put(ProducerConfig.ACKS_CONFIG, kafkaProperties.getAcks());
-        config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, kafkaProperties.getTransactionIdPrefix());
+//        config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, kafkaProperties.getTransactionIdPrefix());
         config.put(ProducerConfig.RETRIES_CONFIG, kafkaProperties.getRetries());
         config.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProperties.getProperties().get("linger.ms"));
         config.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProperties.getProperties().get("request.timeout.ms"));
