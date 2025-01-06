@@ -20,8 +20,7 @@ public class CvProducer {
     private final CvTopicProperties cvTopicProperties;
     private final KafkaTemplate<String, CvDto> kafkaTemplate;
 
-    public void sendCreateCvEvent(@NonNull Long employeeId, @NonNull CvDto cvDto) {
-        Assert.notNull(employeeId, "employeeId must not be null");
+    public void sendCreateCvEvent(@NonNull CvDto cvDto) {
         Assert.notNull(cvDto, "cvDto must not be null");
         log.info("Sending create cv event with dto: {}", cvDto);
 

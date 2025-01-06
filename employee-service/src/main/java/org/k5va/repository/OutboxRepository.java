@@ -5,6 +5,8 @@ import org.jooq.DSLContext;
 import org.k5va.generated.tables.records.OutboxRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static org.k5va.generated.tables.Outbox.OUTBOX;
 
 @Repository
@@ -16,6 +18,20 @@ public class OutboxRepository {
         dslContext
                 .insertInto(OUTBOX, OUTBOX.PAYLOAD, OUTBOX.TYPE)
                 .values(outboxRecord.getPayload(), outboxRecord.getType())
+                .execute();
+    }
+
+    public List<OutboxRecord> selectRecordsToRetry() {
+        return dslContext
+                .selectFrom(OUTBOX)
+                .forUpdate()
+                .fetch();
+    }
+
+    public void delete(OutboxRecord outboxRecord) {
+        dslContext
+                .delete(OUTBOX)
+                .where(OUTBOX.ID.eq(outboxRecord.getId()))
                 .execute();
     }
 }
