@@ -21,7 +21,7 @@ public class OutboxRepository {
                 .execute();
     }
 
-    public List<OutboxRecord> selectRecordsToRetry() {
+    public List<OutboxRecord> selectForProcessing() {
         return dslContext
                 .selectFrom(OUTBOX)
                 .forUpdate()

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class CvOutboxProcessor implements OutboxProcessor {
+public class CvOutboxProcessor implements OutboxRecordProcessor {
     private final ObjectMapper objectMapper;
     private final CvProducer cvProducer;
 

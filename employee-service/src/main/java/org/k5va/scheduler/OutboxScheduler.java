@@ -15,7 +15,7 @@ public class OutboxScheduler {
     @Scheduled(fixedDelay = 10_000)
     public void run() {
         log.info("Outbox processing started");
-        outboxService.processOutbox();
+        outboxService.processAll();
         log.info("Outbox processing finished");
     }
 }

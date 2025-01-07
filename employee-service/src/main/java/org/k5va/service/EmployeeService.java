@@ -49,7 +49,7 @@ public class EmployeeService {
 
         CvDto cvDto = employeeMapper.toCvDto(employeeDto, createdEmployee.getId());
 //        cvProducer.sendCreateCvEvent(createdEmployee.getId(), cvDto);
-        outboxService.createOutboxRecord(objectMapper.writeValueAsString(cvDto), OutboxType.CV);
+        outboxService.create(objectMapper.writeValueAsString(cvDto), OutboxType.CV);
 
         return employeeMapper.toDto(createdEmployee);
     }
