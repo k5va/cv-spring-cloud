@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DisableSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, ConfigDataContextRefresher configDataContextRefresher) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
